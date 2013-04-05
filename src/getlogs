@@ -1,0 +1,2 @@
+#!/bin/bash
+vblogging >> /var/www/scripts/data/logfail.txt

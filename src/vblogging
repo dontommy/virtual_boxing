@@ -1,0 +1,27 @@
+#!/usr/bin/python3
+print("--> Logging of VirtualBoxing")
+myFile = open("/var/log/ufw.log")
+thearray = []
+while True:
+	txt = myFile.readline()
+	if txt == "":
+		break
+	if "UFW BLOCK" in txt:
+		txt1 = txt.split("[UFW BLOCK]")
+		thefirst = txt1[0]
+		thecon = txt1[1]
+		thecon1 = thecon.split(" ")
+		thef1 = thefirst.split(" ")
+		thesec = thef1[3]
+		thesec1 = thesec.split(":")
+		thesecs = thesec1[0],thesec1[1]
+		thesecs1 = ":".join(thesecs) 
+		thetime = thef1[0],thef1[2],thesecs1
+		thetime1 = " ".join(thetime)
+		thestuff = thecon1[9]
+		if thetime1 in thearray:
+			continue
+		thearray.append(thetime1)
+		theip = thecon1[4]
+		theip1 = theip.strip("SRC=")
+		print("Time: ",thetime1," | Blocked IP: ",theip1)

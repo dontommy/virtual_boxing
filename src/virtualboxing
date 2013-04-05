@@ -1,0 +1,34 @@
+#!/bin/bash
+while true; do
+thedate=$(date +%s)
+theip=$(hostname -I)
+theip1=($theip)
+dage=$(date -d @$thedate +'%b %d %H:%M:%S')
+echo -e "--> VirtualBoxing\n"
+echo "Starting a Virtual Machine:"
+echo "Press the code:"
+echo "1: Ubuntu 12.04"
+echo "2: Windows 7"
+echo -e "\n"
+echo "Stopping a Virtual Machine:"
+echo "Press the code:"
+echo "s1: Ubuntu 12.04"
+echo "s2: Windows 7"
+read thenum
+
+if [ $thenum == 1 ]; then
+ssh svdt@192.168.1.120 'VBoxManage startvm "Ubuntu1204"'
+ssh svdt@192.168.1.120 "echo ${theip1}'|'${dage}'|Ubuntu12' >> /var/www/scripts/data/log.txt"
+rdesktop -a 16 -N 192.168.1.120:3389
+elif [ $thenum == 2 ]; then
+ssh svdt@192.168.1.120 'VBoxManage startvm "Windows 7"'
+ssh svdt@192.168.1.120 "echo ${theip1}'|'${dage}'|Win7' >> /var/www/scripts/data/log.txt"
+rdesktop -a 16 -N 192.168.1.120:3390
+elif [ $thenum == s1 ]; then
+ssh svdt@192.168.1.120 'VBoxManage controlvm "Ubuntu1204" poweroff'
+elif [ $thenum == s2 ]; then
+ssh svdt@192.168.1.120 'VBoxManage controlvm "Windows 7" poweroff'
+else
+	echo "fuck off";
+fi
+done
